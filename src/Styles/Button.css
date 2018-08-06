@@ -1,0 +1,42 @@
+button {
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  color: white;
+}
+
+.paren {
+  flex: 1;
+  background-color: red;
+  height: 50px;
+  border: 1px solid black;
+}
+
+.clear {
+  flex: 2;
+  background-color: green;
+}
+
+.num-button {
+  flex: 1;
+  height: 50px;
+  background-color: orange;
+  border: 1px solid black;
+}
+
+.operator-button {
+  flex: 1;
+  background-color: blue;
+  height: 50px;
+  border: 1px solid black;
+}
+
+.period-button {
+  flex: 1;
+  background-color: pink;
+}
+
+.equals-button {
+  flex: 1;
+  background-color: purple;
+}

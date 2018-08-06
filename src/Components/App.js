@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import '../Styles/App.css';
+import { Button } from './Button';
 
 class App extends Component {
   render() {
@@ -8,15 +9,34 @@ class App extends Component {
       <div className="App">
         <div className="calc-wrapper">
           <div className="row">
-            <div className="red"></div>
-            <div className="green"></div>
-            <div className="orange"></div>
+            <Button content="(" buttonStyles="paren" />
+            <Button content=")" buttonStyles="paren" />
+            <Button content="AC" buttonStyles="clear" />
           </div>
           <div className="row">
-            <div className="blue"></div>
-            <div className="pink"></div>
-            <div className="purple"></div>
-          </div>       
+            <Button content="7" buttonStyles="num-button" />
+            <Button content="8" buttonStyles="num-button" />
+            <Button content="9" buttonStyles="num-button" />
+            <Button content="/" buttonStyles="operator-button" />
+          </div>  
+          <div className="row">
+            <Button content="4" buttonStyles="num-button" />
+            <Button content="5" buttonStyles="num-button" />
+            <Button content="6" buttonStyles="num-button" />
+            <Button content="X" buttonStyles="operator-button" />
+          </div>    
+          <div className="row">
+            <Button content="1" buttonStyles="num-button" />
+            <Button content="2" buttonStyles="num-button" />
+            <Button content="3" buttonStyles="num-button" />
+            <Button content="-" buttonStyles="operator-button" />
+          </div>  
+          <div className="row">
+            <Button content="0" buttonStyles="num-button" />
+            <Button content="." buttonStyles="num-button" />
+            <Button content="=" buttonStyles="num-button" />
+            <Button content="+" buttonStyles="operator-button" />
+          </div>                 
         {/* // equals buttons
         // numbers buttons
         // operations buttons 

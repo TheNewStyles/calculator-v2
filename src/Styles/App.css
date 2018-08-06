@@ -13,35 +13,3 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-
-.red {
-  flex: 1;
-  background-color: red;
-  height: 50px;
-}
-
-.green {
-  flex: 2;
-  background-color: green;
-}
-
-.orange {
-  flex: 1;
-  background-color: orange;
-}
-
-.blue {
-  flex: 1;
-  background-color: blue;
-  height: 50px;
-}
-
-.pink {
-  flex: 1;
-  background-color: pink;
-}
-
-.purple {
-  flex: 1;
-  background-color: purple;
-}
