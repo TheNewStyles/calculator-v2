@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import { Button } from './Button';
 import { Display } from './Display';
-import { isANumber, reversePolishNotation, yard } from './Helpers';
+import { isANumber, evalPostFix, toPostFix } from './Helpers';
 
 class App extends Component {
   constructor(props) {
@@ -62,7 +62,7 @@ class App extends Component {
 
     if (isANumber(lastChar)) {
       this.setState({
-        displayText: this.state.displayText + entered
+        displayText: this.state.displayText + " " + entered + " "
       })
     }
   }
@@ -79,14 +79,19 @@ class App extends Component {
 
     if(isANumber(lastChar)){
       this.setState({
-        displayText: this.state.displayText + entered
+        displayText: this.state.displayText + entered 
       })
     }
   }
 
   handleCalculateClick(e) {
-    const postFix = yard(this.state.displayText);
-    const answer = reversePolishNotation(postFix);
+    const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
+    if (lastChar === "") {
+      return;
+    }
+
+    const postFix = toPostFix(this.state.displayText);
+    const answer = evalPostFix(postFix);
     this.setState({
       displayText: answer
     })
