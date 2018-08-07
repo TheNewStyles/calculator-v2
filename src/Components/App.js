@@ -12,6 +12,11 @@ class App extends Component {
       displayText: "",
     };
 
+    this.operators = ["/","X","+","-"];
+    this.period = ".";
+    this.leftParen = "(";
+    this.rightParen = ")";
+
     this.handleNumberClick = this.handleNumberClick.bind(this);
     this.handleParenClick = this.handleParenClick.bind(this);
     this.handleOperandClick = this.handleOperatorClick.bind(this);
@@ -25,18 +30,32 @@ class App extends Component {
     })
   }
 
-  handleParenClick(e) {
-    const leftParen = "(";
-    const rightParen = ")";
+  handleParenClick(e) {    
     const entered = e.target.innerText;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
-      
-    //handle parens
-      // cannot be next to operands
-      // cannot be next to periods
-      // update display text
-      // cannot enter ) without ( first
-      // if only ( is entered ignore
+    const isLeftParenAndFirstCharEntered = entered === this.leftParen && lastChar === "" ? true : false;
+    const isLastCharAnOperator = this.operators.indexOf(lastChar) > 0;
+    const isLastCharAPeriod = lastChar === this.period;
+    const isLastCharAParen = lastChar === this.leftParen || lastChar === this.rightParen;
+
+    if (isLeftParenAndFirstCharEntered) {
+      this.setState({
+        displayText: this.state.displayText + e.target.innerText
+      })
+    } else if (entered === this.leftParen) {  
+      if (!isLastCharAnOperator && !isLastCharAPeriod && !isLastCharAParen) {
+        this.setState({
+          displayText: this.state.displayText + e.target.innerText
+        })
+      }     
+    } else if (entered === this.rightParen) {
+      //TODO match parens
+      if (!isLastCharAnOperator && !isLastCharAPeriod && !isLastCharAParen) {
+        this.setState({
+          displayText: this.state.displayText + e.target.innerText
+        })
+      } 
+    } 
   }
 
   handleOperatorClick(e) {
