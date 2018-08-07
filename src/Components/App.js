@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import { Button } from './Button';
 import { Display } from './Display';
+import { isANumber, reversePolishNotation, yard } from './Helpers';
 
 class App extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class App extends Component {
       })
     } else if (entered === leftParen) { 
       // TODO: fix Operators may be next to left parens 
-      if (this.isANumber(lastChar)) {
+      if (isANumber(lastChar)) {
         this.setState({
           displayText: this.state.displayText + e.target.innerText
         })
@@ -47,7 +48,7 @@ class App extends Component {
       // TODO: fix Operators may be next to left parens
     } else if (entered === rightParen) {
       //TODO match parens
-      if (this.isANumber(lastChar)) {
+      if (isANumber(lastChar)) {
         this.setState({
           displayText: this.state.displayText + entered
         })
@@ -59,7 +60,7 @@ class App extends Component {
     const entered = e.target.innerText;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
 
-    if (this.isANumber(lastChar)) {
+    if (isANumber(lastChar)) {
       this.setState({
         displayText: this.state.displayText + entered
       })
@@ -76,7 +77,7 @@ class App extends Component {
     const entered = e.target.innerText;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
 
-    if(this.isANumber(lastChar)){
+    if(isANumber(lastChar)){
       this.setState({
         displayText: this.state.displayText + entered
       })
@@ -84,69 +85,11 @@ class App extends Component {
   }
 
   handleCalculateClick(e) {
-    const postFix = this.yard(this.state.displayText);
-    const answer = this.reversePolishNotation(postFix);
+    const postFix = yard(this.state.displayText);
+    const answer = reversePolishNotation(postFix);
     this.setState({
       displayText: answer
     })
-  }
-
-  //adapted from https://eddmann.com/posts/implementing-the-shunting-yard-algorithm-in-javascript/
-  yard(infix) {
-    let ops = {'+': 1, '-': 1, '*': 2, '/': 2};
-    let peek = (a) => a[a.length - 1];
-    let stack = [];
-  
-    return infix
-      .split('')
-      .reduce((output, token) => {
-        if (parseFloat(token)) {
-          output.push(token);
-        }
-  
-        if (token in ops) {
-          while (peek(stack) in ops && ops[token] <= ops[peek(stack)])
-            output.push(stack.pop());
-          stack.push(token);
-        }
-  
-        if (token == '(') {
-          stack.push(token);
-        }
-  
-        if (token == ')') {
-          while (peek(stack) != '(')
-            output.push(stack.pop());
-          stack.pop();
-        }
-  
-        return output;
-      }, [])
-      .concat(stack.reverse())
-      .join(' ');
-  };
-  
-  //adapted from https://eddmann.com/posts/small-rpn-implementation-in-javascript/
-  reversePolishNotation(ts, s = []) {
-    ts.split(' ').forEach(t =>
-      s.push(t == +t ? t : eval(s.splice(-2,1)[0] + t + s.pop())));
-    return s[0];
-  }
-
-  isANumber(lastChar) {
-    const operators = ["/","*","+","-"];
-    const decimal = ".";
-    const leftParen = "(";
-    const rightParen = ")";
-    const isLastCharAnOperator = operators.indexOf(lastChar) >= 0;
-    const isLastCharAdecimal = lastChar === decimal;
-    const isLastCharAParen = lastChar === leftParen || lastChar === rightParen;
-    const isLastCharEmpty = lastChar === "";
-
-    if (!isLastCharEmpty && !isLastCharAnOperator && !isLastCharAParen && !isLastCharAdecimal) {
-      return true;
-    }
-    return false;
   }
 
   render() {
