@@ -19,7 +19,7 @@ class App extends Component {
 
     this.handleNumberClick = this.handleNumberClick.bind(this);
     this.handleParenClick = this.handleParenClick.bind(this);
-    this.handleOperandClick = this.handleOperatorClick.bind(this);
+    this.handleOperatorClick = this.handleOperatorClick.bind(this);
     this.handleEqualsClick = this.handleEqualsClick.bind(this);
     this.handleClearClick = this.handleClearClick.bind(this);
   }    
@@ -34,37 +34,53 @@ class App extends Component {
     const entered = e.target.innerText;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
     const isLeftParenAndFirstCharEntered = entered === this.leftParen && lastChar === "" ? true : false;
-    const isLastCharAnOperator = this.operators.indexOf(lastChar) > 0;
-    const isLastCharAPeriod = lastChar === this.period;
-    const isLastCharAParen = lastChar === this.leftParen || lastChar === this.rightParen;
 
     if (isLeftParenAndFirstCharEntered) {
       this.setState({
         displayText: this.state.displayText + e.target.innerText
       })
     } else if (entered === this.leftParen) {  
-      if (!isLastCharAnOperator && !isLastCharAPeriod && !isLastCharAParen) {
+      if (this.isANumber(lastChar)) {
         this.setState({
           displayText: this.state.displayText + e.target.innerText
         })
       }     
     } else if (entered === this.rightParen) {
       //TODO match parens
-      if (!isLastCharAnOperator && !isLastCharAPeriod && !isLastCharAParen) {
+      if (this.isANumber(lastChar)) {
         this.setState({
-          displayText: this.state.displayText + e.target.innerText
+          displayText: this.state.displayText + entered
         })
       } 
     } 
   }
 
   handleOperatorClick(e) {
-    // const operands = []; 
-        //handle operands
-      // cannot be consecutive 
-      // cannot be next to period
-      // cannot be next to parens
-      // update display text
+    const entered = e.target.innerText;
+    const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
+
+    if (this.isANumber(lastChar)) {
+      this.setState({
+        displayText: this.state.displayText + entered
+      })
+    }
+  }
+
+  handleClearClick() {
+    this.setState({
+      displayText: ""
+    })
+  }
+
+  handlePeriodClick(e) {
+    const entered = e.target.innerText;
+    const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
+
+    if(this.isANumber(lastChar)){
+      this.setState({
+        displayText: this.state.displayText + entered
+      })
+    }
   }
 
   handleEqualsClick(e) {
@@ -77,8 +93,17 @@ class App extends Component {
       // update display text with answer
   }
 
-  handleClearClick(e) {
+  // helper methods
+  isANumber(lastChar) {
+    const isLastCharAnOperator = this.operators.indexOf(lastChar) >= 0;
+    const isLastCharAPeriod = lastChar === this.period;
+    const isLastCharAParen = lastChar === this.leftParen || lastChar === this.rightParen;
+    const isLastCharEmpty = lastChar === "";
 
+    if (!isLastCharEmpty && !isLastCharAnOperator && !isLastCharAParen && !isLastCharAPeriod) {
+      return true;
+    }
+    return false;
   }
 
   render() {
@@ -91,31 +116,31 @@ class App extends Component {
           <div className="row">
             <Button content="(" buttonStyles="paren" handleClick={this.handleParenClick} />
             <Button content=")" buttonStyles="paren" handleClick={this.handleParenClick} />
-            <Button content="AC" buttonStyles="clear" />
+            <Button content="AC" buttonStyles="clear" handleClick={this.handleClearClick} />
           </div>
           <div className="row">
             <Button content="7" buttonStyles="num-button" handleClick={this.handleNumberClick} />
             <Button content="8" buttonStyles="num-button" handleClick={this.handleNumberClick} />
             <Button content="9" buttonStyles="num-button" handleClick={this.handleNumberClick} />
-            <Button content="/" buttonStyles="operator-button" />
+            <Button content="/" buttonStyles="operator-button" handleClick={this.handleOperatorClick} />
           </div>  
           <div className="row">
             <Button content="4" buttonStyles="num-button" handleClick={this.handleNumberClick} />
             <Button content="5" buttonStyles="num-button" handleClick={this.handleNumberClick} />
             <Button content="6" buttonStyles="num-button" handleClick={this.handleNumberClick} />
-            <Button content="X" buttonStyles="operator-button" />
+            <Button content="X" buttonStyles="operator-button" handleClick={this.handleOperatorClick}  />
           </div>    
           <div className="row">
             <Button content="1" buttonStyles="num-button" handleClick={this.handleNumberClick} />
             <Button content="2" buttonStyles="num-button" handleClick={this.handleNumberClick} />
             <Button content="3" buttonStyles="num-button" handleClick={this.handleNumberClick} />
-            <Button content="-" buttonStyles="operator-button" />
+            <Button content="-" buttonStyles="operator-button" handleClick={this.handleOperatorClick} />
           </div>  
           <div className="row">
             <Button content="0" buttonStyles="num-button" handleClick={this.handleNumberClick} />
-            <Button content="." buttonStyles="num-button" />
+            <Button content="." buttonStyles="num-button" handleClick={this.handlePeriodClick} />
             <Button content="=" buttonStyles="equals-button" />
-            <Button content="+" buttonStyles="operator-button" />
+            <Button content="+" buttonStyles="operator-button" handleClick={this.handleOperatorClick}  />
           </div>                 
         </div>
       </div>
