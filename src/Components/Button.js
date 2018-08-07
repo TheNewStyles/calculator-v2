@@ -6,7 +6,7 @@ export class Button extends Component {
   render() {
     return (
       <div className={this.props.buttonStyles}>
-        <button>
+        <button onClick={this.props.handleClick}>
           {this.props.content}
         </button>
       </div>
