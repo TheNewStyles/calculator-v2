@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import { Button } from './Button';
 import { Display } from './Display';
-import { isANumber, evalPostFix, toPostFix } from './Helpers';
+import { isANumber, evalPostFix, toPostFix } from './MathHelpers';
+import { isOperator, isParen, isClear, isNumber, isDecimal, isCalculate } from './KeyPressHelpers';
 
 class App extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class App extends Component {
 
     this.state = {
       displayText: "",
+      calculated: false
     };  
 
     this.handleNumberClick = this.handleNumberClick.bind(this);
@@ -19,14 +21,41 @@ class App extends Component {
     this.handleCalculateClick = this.handleCalculateClick.bind(this);
     this.handleClearClick = this.handleClearClick.bind(this);
     this.handleDecimalClick = this.handleDecimalClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }    
 
+  componentDidMount() {	   
+    window.addEventListener("keyup", this.handleKeyPress);	 
+  } 	  
+
+  componentWillUnmount() {	   
+    window.removeEventListener("keyup", this.handleKeyPress);
+  }
+
+  handleKeyPress(e) {
+    if (isOperator(e.key)) {
+      this.handleOperatorClick(e.key);
+    } else if (isParen(e.key)) {
+      this.handleParenClick(e.key);
+    } else if (isClear(e.key)) {
+      this.handleClearClick(e.key);
+    } else if (isNumber(e.key)) {
+      this.handleNumberClick(e.key);
+    } else if (isDecimal(e.key)) {
+      this.handleDecimalClick(e.key);
+    } else if (isCalculate("Enter" || "=")) {
+      this.handleCalculateClick(e.key);
+    }
+  }
+
   handleNumberClick(e) {
+    const entered = e instanceof String ? e.target.innerText : e;
     this.setState({
-      displayText: this.state.displayText + e.target.innerText
+      displayText: this.state.displayText + entered
     })
   }
 
+  //Need to rework parens so they correctly match up
   handleParenClick(e) {    
     const leftParen = "(";
     const rightParen = ")";
@@ -50,19 +79,21 @@ class App extends Component {
       //TODO match parens
       if (isANumber(lastChar)) {
         this.setState({
-          displayText: this.state.displayText + entered
+          displayText: this.state.displayText + entered,
+          calculated: false
         })
       } 
     } 
   }
 
   handleOperatorClick(e) {
-    const entered = e.target.innerText;
+    const entered = e instanceof String ? e.target.innerText : e;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
 
-    if (isANumber(lastChar)) {
+    if (isANumber(lastChar) || this.state.calculated) {
       this.setState({
-        displayText: this.state.displayText + " " + entered + " "
+        displayText: this.state.displayText + " " + entered + " ",
+        calculated: false
       })
     }
   }
@@ -74,7 +105,7 @@ class App extends Component {
   }
 
   handleDecimalClick(e) {
-    const entered = e.target.innerText;
+    const entered = e instanceof String ? e.target.innerText : e;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
 
     if(isANumber(lastChar)){
@@ -93,7 +124,8 @@ class App extends Component {
     const postFix = toPostFix(this.state.displayText);
     const answer = evalPostFix(postFix);
     this.setState({
-      displayText: answer
+      displayText: answer,
+      calculated: true
     })
   }
 
@@ -105,8 +137,8 @@ class App extends Component {
             <Display text={this.state.displayText} />
           </div>
           <div className="row">
-            <Button content="(" buttonStyles="paren" handleClick={this.handleParenClick} />
-            <Button content=")" buttonStyles="paren" handleClick={this.handleParenClick} />
+            <Button content="(" buttonStyles="paren" />
+            <Button content=")" buttonStyles="paren" />
             <Button content="AC" buttonStyles="clear" handleClick={this.handleClearClick} />
           </div>
           <div className="row">

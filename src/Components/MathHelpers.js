@@ -66,3 +66,4 @@ export function toPostFix(infix) {
     .concat(stack.reverse())
     .join(' ');
 }
+
