@@ -10,18 +10,14 @@ class App extends Component {
 
     this.state = {
       displayText: "",
-    };
-
-    this.operators = ["/","X","+","-"];
-    this.period = ".";
-    this.leftParen = "(";
-    this.rightParen = ")";
+    };  
 
     this.handleNumberClick = this.handleNumberClick.bind(this);
     this.handleParenClick = this.handleParenClick.bind(this);
     this.handleOperatorClick = this.handleOperatorClick.bind(this);
     this.handleEqualsClick = this.handleEqualsClick.bind(this);
     this.handleClearClick = this.handleClearClick.bind(this);
+    this.handlePeriodClick = this.handlePeriodClick.bind(this);
   }    
 
   handleNumberClick(e) {
@@ -31,21 +27,23 @@ class App extends Component {
   }
 
   handleParenClick(e) {    
+    const leftParen = "(";
+    const rightParen = ")";
     const entered = e.target.innerText;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
-    const isLeftParenAndFirstCharEntered = entered === this.leftParen && lastChar === "" ? true : false;
+    const isLeftParenAndFirstCharEntered = entered === leftParen && lastChar === "" ? true : false;
 
     if (isLeftParenAndFirstCharEntered) {
       this.setState({
         displayText: this.state.displayText + e.target.innerText
       })
-    } else if (entered === this.leftParen) {  
+    } else if (entered === leftParen) {  
       if (this.isANumber(lastChar)) {
         this.setState({
           displayText: this.state.displayText + e.target.innerText
         })
       }     
-    } else if (entered === this.rightParen) {
+    } else if (entered === rightParen) {
       //TODO match parens
       if (this.isANumber(lastChar)) {
         this.setState({
@@ -95,9 +93,13 @@ class App extends Component {
 
   // helper methods
   isANumber(lastChar) {
-    const isLastCharAnOperator = this.operators.indexOf(lastChar) >= 0;
-    const isLastCharAPeriod = lastChar === this.period;
-    const isLastCharAParen = lastChar === this.leftParen || lastChar === this.rightParen;
+    const operators = ["/","X","+","-"];
+    const period = ".";
+    const leftParen = "(";
+    const rightParen = ")";
+    const isLastCharAnOperator = operators.indexOf(lastChar) >= 0;
+    const isLastCharAPeriod = lastChar === period;
+    const isLastCharAParen = lastChar === leftParen || lastChar === rightParen;
     const isLastCharEmpty = lastChar === "";
 
     if (!isLastCharEmpty && !isLastCharAnOperator && !isLastCharAParen && !isLastCharAPeriod) {
