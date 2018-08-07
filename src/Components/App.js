@@ -2,12 +2,24 @@ import React, { Component } from 'react';
 
 import '../Styles/App.css';
 import { Button } from './Button';
+import { Display } from './Display';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      displayText: "HEY",
+    };
+  }
+
   render() {
     return (
       <div className="App">
         <div className="calc-wrapper">
+          <div className="row">
+            <Display text={this.state.displayText} />
+          </div>
           <div className="row">
             <Button content="(" buttonStyles="paren" />
             <Button content=")" buttonStyles="paren" />
@@ -34,15 +46,9 @@ class App extends Component {
           <div className="row">
             <Button content="0" buttonStyles="num-button" />
             <Button content="." buttonStyles="num-button" />
-            <Button content="=" buttonStyles="num-button" />
+            <Button content="=" buttonStyles="equals-button" />
             <Button content="+" buttonStyles="operator-button" />
           </div>                 
-        {/* // equals buttons
-        // numbers buttons
-        // operations buttons 
-        // decimal button
-        // clear button
-        // display screen */}
         </div>
       </div>
     );

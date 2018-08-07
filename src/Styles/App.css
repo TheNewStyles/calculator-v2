@@ -3,13 +3,17 @@
 }
 
 .calc-wrapper {
-  /* display: flex;
-  flex-flow: row; 
-  flex-wrap: wrap; */
+  height: 100vh;
 }
 
 .row {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  min-height: 16.67%;
+}
+
+.display {
+  background-color: pink;
+  width: 100%;
 }
