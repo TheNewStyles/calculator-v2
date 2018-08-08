@@ -1,0 +1,13 @@
+.display {
+  background-color: #bccd95;
+  width: 100%;
+  color: black;
+  font-size: 2em;
+  align-items: center;
+  display: flex;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  justify-content: flex-end;
+  padding-right: 15px;
+}

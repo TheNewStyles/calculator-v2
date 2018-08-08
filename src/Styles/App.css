@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+}
+
+.calc-wrapper {
+  height: 100vh;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: 16.67%;
+}
+
+
