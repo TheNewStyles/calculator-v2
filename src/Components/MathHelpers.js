@@ -16,7 +16,7 @@ export function isANumber(lastChar) {
 
 // adpated from https://github.com/joh04667/JS-Postfix-Calculator/blob/master/RPNcalc.js
 export function evalPostFix(expr) {
-  if(expr === "" || typeof(expr) !== "string") {return 0};
+  if (expr === "" || typeof(expr) !== "string") {return "Invalid equation"};
   var ar = expr.split( /\s+/ ), st = [], token;
   // eslint-disable-next-line
   while( token = ar.shift() ) { 
@@ -34,11 +34,14 @@ export function evalPostFix(expr) {
   
 // adapted from https://eddmann.com/posts/implementing-the-shunting-yard-algorithm-in-javascript/
 export function toPostFix(infix) {
-  let ops = {'+': 1, '-': 1, '*': 2, '/': 2};
-  let peek = (a) => a[a.length - 1];
-  let stack = [];
 
-  return infix
+  try {
+    if (infix === "" || typeof(infix) !== "string") {return "Invalid equation"};
+    let ops = {'+': 1, '-': 1, '*': 2, '/': 2};
+    let peek = (a) => a[a.length - 1];
+    let stack = [];
+
+    return infix
     .split(' ')
     .reduce((output, token) => {
       if (parseFloat(token)) {
@@ -60,10 +63,14 @@ export function toPostFix(infix) {
           output.push(stack.pop());
         stack.pop();
       }
-
+      
       return output;
     }, [])
     .concat(stack.reverse())
     .join(' ');
+  }
+  catch (Exception) {
+    console.log(Exception);
+  }
 }
 

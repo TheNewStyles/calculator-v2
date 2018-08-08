@@ -4,7 +4,7 @@ import '../Styles/App.css';
 import { Button } from './Button';
 import { Display } from './Display';
 import { isANumber, evalPostFix, toPostFix } from './MathHelpers';
-import { isOperator, isParen, isClear, isNumber, isDecimal, isCalculate } from './KeyPressHelpers';
+import { isType } from './KeyPressHelpers';
 
 class App extends Component {
   constructor(props) {
@@ -34,17 +34,17 @@ class App extends Component {
 
   handleKeyPress(e) {
     e.preventDefault();
-    if (isOperator(e.key)) {
+    if (isType(["/","*","+","-"], e.key)) {
       this.handleOperatorClick(e.key);
-    } else if (isParen(e.key)) {
+    } else if (isType(["(",")"], e.key)) {
       this.handleParenClick(e.key);
-    } else if (isClear(e.key)) {
+    } else if (isType("AC", e.key)) {
       this.handleClearClick(e.key);
-    } else if (isNumber(e.key)) {
+    } else if (isType(["1","2","3","4","5","6","7","8","9","0"],e.key)) {
       this.handleNumberClick(e.key);
-    } else if (isDecimal(e.key)) {
+    } else if (isType(".", e.key)) {
       this.handleDecimalClick(e.key);
-    } else if (isCalculate("Enter")) {
+    } else if (isType(["=","Enter"], "Enter")) {
       this.handleCalculateClick(e.key);
     }
   }
