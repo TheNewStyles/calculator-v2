@@ -25,11 +25,11 @@ class App extends Component {
   }    
 
   componentDidMount() {	   
-    window.addEventListener("keyup", this.handleKeyPress);	 
+    window.addEventListener("keydown", this.handleKeyPress);	 
   } 	  
 
   componentWillUnmount() {	   
-    window.removeEventListener("keyup", this.handleKeyPress);
+    window.removeEventListener("keydown", this.handleKeyPress);
   }
 
   handleKeyPress(e) {
@@ -43,7 +43,7 @@ class App extends Component {
       this.handleNumberClick(e.key);
     } else if (isDecimal(e.key)) {
       this.handleDecimalClick(e.key);
-    } else if (isCalculate("Enter" || "=")) {
+    } else if (isCalculate("Enter")) {
       this.handleCalculateClick(e.key);
     }
   }
@@ -51,7 +51,7 @@ class App extends Component {
   handleNumberClick(e) {
     const entered = typeof e === "string" ? e : e.target.innerText;
     this.setState({
-      displayText: this.state.displayText + entered
+      displayText: this.state.displayText + entered.toString()
     })
   }
 
@@ -79,7 +79,7 @@ class App extends Component {
       //TODO match parens
       if (isANumber(lastChar)) {
         this.setState({
-          displayText: this.state.displayText + entered,
+          displayText: this.state.displayText + entered.toString(),
           calculated: false
         })
       } 
@@ -110,19 +110,19 @@ class App extends Component {
 
     if(isANumber(lastChar)){
       this.setState({
-        displayText: this.state.displayText + entered 
+        displayText: this.state.displayText + entered.toString()
       })
     }
   }
 
-  handleCalculateClick(e) {
+  handleCalculateClick() {
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
     if (lastChar === "") {
       return;
     }
 
     const postFix = toPostFix(this.state.displayText);
-    const answer = evalPostFix(postFix);
+    const answer = evalPostFix(postFix).toString();
     this.setState({
       displayText: answer,
       calculated: true
