@@ -12,7 +12,7 @@ class App extends Component {
 
     this.state = {
       displayText: "",
-      calculated: false
+      hasCalculated: false
     };  
 
     this.handleNumberClick = this.handleNumberClick.bind(this);
@@ -49,7 +49,7 @@ class App extends Component {
   }
 
   handleNumberClick(e) {
-    const entered = e instanceof String ? e.target.innerText : e;
+    const entered = typeof e === "string" ? e : e.target.innerText;
     this.setState({
       displayText: this.state.displayText + entered
     })
@@ -87,10 +87,10 @@ class App extends Component {
   }
 
   handleOperatorClick(e) {
-    const entered = e instanceof String ? e.target.innerText : e;
-    const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
+    const entered = typeof e === "string" ? e : e.target.innerText;
+    const lastChar = this.state.displayText.toString().length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
 
-    if (isANumber(lastChar) || this.state.calculated) {
+    if (isANumber(lastChar) || this.state.hasCalculated) {
       this.setState({
         displayText: this.state.displayText + " " + entered + " ",
         calculated: false
@@ -105,7 +105,7 @@ class App extends Component {
   }
 
   handleDecimalClick(e) {
-    const entered = e instanceof String ? e.target.innerText : e;
+    const entered = typeof e === "string" ? e : e.target.innerText;
     const lastChar = this.state.displayText.length > 0 ? this.state.displayText[this.state.displayText.length - 1] : "";
 
     if(isANumber(lastChar)){
