@@ -33,6 +33,7 @@ class App extends Component {
   }
 
   handleKeyPress(e) {
+    e.preventDefault();
     if (isOperator(e.key)) {
       this.handleOperatorClick(e.key);
     } else if (isParen(e.key)) {
@@ -56,7 +57,7 @@ class App extends Component {
   }
 
   //Need to rework parens so they correctly match up
-  handleParenClick(e) {    
+  handleParenClick(e) { 
     const leftParen = "(";
     const rightParen = ")";
     const entered = e.target.innerText;

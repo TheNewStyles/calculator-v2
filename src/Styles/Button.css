@@ -3,12 +3,14 @@ button {
   width: 100%;
   background-color: transparent;
   font-size: 2em;
+  padding: 0;
+  border-style: none;
+  border: 1px solid black;
 }
 
 .paren {
   flex: 1;
   background-color: #d6d6d6;
-  border: 1px solid black;
 }
 
 .clear {
@@ -19,13 +21,11 @@ button {
 .num-button {
   flex: 1;
   background-color: #f5f5f5;
-  border: 1px solid black;
 }
 
 .operator-button {
   flex: 1;
   background-color: #d6d6d6;
-  border: 1px solid black;
 }
 
 .period-button {
